@@ -5,12 +5,37 @@ using System.Collections.Generic;
 public class CodeBlockManager : MonoBehaviour
 {
     [Header("Code Block Configuration")]
-    public Transform codeBlockContainer;
-    public GameObject codeBlockPrefab;
-    public List<string> correctOrder;
+    public Transform codeBlockContainer; // 代码块容器
+    public GameObject codeBlockPrefab;   // 代码块预制体
 
-    [Header("Next Level Settings")]
-    public string nextSceneName; // 下一关卡名
+    [Header("Debugging")]
+    public Text feedbackText; // 提示文本
+
+    private List<GameObject> spawnedBlocks = new List<GameObject>(); // 存储生成的代码块
+
+    [System.Serializable]
+    public class CodeSequence
+    {
+        public List<string> correctOrder; // 正确的代码块顺序
+        public string targetScene;       // 对应跳转的场景名称
+    }
+
+    [Header("Code Block Settings")]
+    [Tooltip("输入代码块的自定义标签，用逗号分隔：Block1, Block2, Block3")]
+    [TextArea]
+    public string codeBlockTags; // 文本输入框，定义每个代码块的自定义标签
+
+    [Tooltip("代码块的起始位置")]
+    public Vector3 startPosition = new Vector3(0, 0, 0); // 起始位置
+
+    [Tooltip("代码块之间的水平间距")]
+    public float horizontalSpacing = 2.0f; // 每个代码块的水平间距
+
+    [Tooltip("父级对象，用于存放生成的代码块")]
+    public Transform parentTransform; // 父级对象，用于管理生成的代码块
+
+    [Header("Sequences")]
+    public List<CodeSequence> sequences; // 存储不同的代码块顺序
 
     private List<CodeBlock> codeBlocks = new List<CodeBlock>();
 
@@ -21,21 +46,36 @@ public class CodeBlockManager : MonoBehaviour
 
     private void SetupCodeBlocks()
     {
-        foreach (Transform child in codeBlockContainer)
+        if (codeBlockPrefab == null)
         {
-            Destroy(child.gameObject);
+            Debug.LogError("CodeBlockPrefab is not assigned.");
+            return;
         }
-        codeBlocks.Clear();
 
-        // 创建新的代码块
-        List<string> shuffledOrder = new List<string>(correctOrder);
-        ShuffleList(shuffledOrder);
+        // 解析输入的标签
+        string[] blockTags = codeBlockTags.Split(',');
+        Vector3 currentPosition = startPosition;
 
-        foreach (string blockText in shuffledOrder)
+        foreach (string tag in blockTags)
         {
-            GameObject newBlock = Instantiate(codeBlockPrefab, codeBlockContainer);
-            newBlock.GetComponentInChildren<Text>().text = blockText;
-            codeBlocks.Add(newBlock.GetComponent<CodeBlock>());
+            string trimmedTag = tag.Trim(); // 去除多余空格
+
+            // 生成代码块
+            GameObject block = Instantiate(codeBlockPrefab, currentPosition, Quaternion.identity, parentTransform);
+
+            // 设置自定义标签
+            block.name = trimmedTag;
+
+            // 将生成的代码块添加到列表中
+            spawnedBlocks.Add(block);
+
+            // 更新位置
+            currentPosition.x += horizontalSpacing;
+        }
+
+        if (spawnedBlocks.Count == 0)
+        {
+            Debug.LogError("No CodeBlocks were created. Check your input.");
         }
     }
 
@@ -43,23 +83,26 @@ public class CodeBlockManager : MonoBehaviour
     {
         List<string> playerOrder = new List<string>();
 
-        foreach (CodeBlock block in codeBlocks)
+        // 收集玩家摆放的顺序
+        foreach (GameObject block in spawnedBlocks)
         {
-            playerOrder.Add(block.GetComponentInChildren<Text>().text);
+            playerOrder.Add(block.name); // 使用名字作为顺序标识
         }
 
-        if (IsCorrectOrder(playerOrder))
+        foreach (CodeSequence sequence in sequences)
         {
-            Debug.Log("Proceeding to the next level.");
-            LoadNextLevel();
+            if (IsCorrectOrder(playerOrder, sequence.correctOrder))
+            {
+                feedbackText.text = "Correct! Loading " + sequence.targetScene;
+                LoadScene(sequence.targetScene);
+                return;
+            }
         }
-        else
-        {
-            Debug.Log("Incorrect! Try again.");
-        }
+
+        feedbackText.text = "Incorrect! Try again.";
     }
 
-    private bool IsCorrectOrder(List<string> playerOrder)
+    private bool IsCorrectOrder(List<string> playerOrder, List<string> correctOrder)
     {
         if (playerOrder.Count != correctOrder.Count)
             return false;
@@ -73,9 +116,9 @@ public class CodeBlockManager : MonoBehaviour
         return true;
     }
 
-    private void LoadNextLevel()
+    private void LoadScene(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
     private void ShuffleList(List<string> list)

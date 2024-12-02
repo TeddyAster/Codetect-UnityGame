@@ -20,7 +20,20 @@ public class CodeBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         parentContainer = transform.parent;
         transform.SetParent(parentContainer.parent);
     }
+    public float snapDistance = 1.0f; // 吸附距离
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("CodeBlock"))
+        {
+            Vector3 offset = other.transform.position - transform.position;
 
+            // 如果距离足够近，自动吸附到对方
+            if (offset.magnitude <= snapDistance)
+            {
+                transform.position = other.transform.position - offset.normalized * snapDistance;
+            }
+        }
+    }
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta;
