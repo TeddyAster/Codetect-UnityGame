@@ -1,0 +1,22 @@
+{Level=1}
+    [Block]
+        1=test
+        2=test
+        3=test
+        4=test
+        5=test
+        6=test
+        7=test
+        8=test
+    [StayBlock]
+        4,5,8
+    [OrderPreset=A]
+        12345678
+    [OrderPreset=B]
+        13245768
+    [OrderPreset=C]
+        76145328
+    [GoToLevel]
+        A=2
+        B=3
+        C=4
