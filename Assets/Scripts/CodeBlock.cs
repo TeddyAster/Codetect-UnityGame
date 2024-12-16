@@ -5,9 +5,11 @@ public class CodeBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 {
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-    private Transform parentContainer;
+    private Transform originalParent;
 
-    void Awake()
+    public float snapDistance = 50f;
+
+    private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
@@ -17,23 +19,10 @@ public class CodeBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         canvasGroup.alpha = 0.6f;
         canvasGroup.blocksRaycasts = false;
-        parentContainer = transform.parent;
-        transform.SetParent(parentContainer.parent);
+        originalParent = transform.parent;
+        transform.SetParent(originalParent.parent);
     }
-    public float snapDistance = 1.0f; // 吸附距离
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("CodeBlock"))
-        {
-            Vector3 offset = other.transform.position - transform.position;
 
-            // 如果距离足够近，自动吸附到对方
-            if (offset.magnitude <= snapDistance)
-            {
-                transform.position = other.transform.position - offset.normalized * snapDistance;
-            }
-        }
-    }
     public void OnDrag(PointerEventData eventData)
     {
         rectTransform.anchoredPosition += eventData.delta;
@@ -44,10 +33,34 @@ public class CodeBlock : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
 
-        // 如果没有放在有效位置，回到原处
-        if (transform.parent == parentContainer.parent)
+        GameObject closestTarget = FindClosestTarget();
+        if (closestTarget != null)
         {
-            transform.SetParent(parentContainer);
+            transform.SetParent(closestTarget.transform);
+            rectTransform.anchoredPosition = Vector2.zero;
         }
+        else
+        {
+            transform.SetParent(originalParent);
+        }
+    }
+
+    private GameObject FindClosestTarget()
+    {
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("CodeBlockTarget");
+        GameObject closest = null;
+        float minDistance = float.MaxValue;
+
+        foreach (GameObject target in targets)
+        {
+            float distance = Vector3.Distance(transform.position, target.transform.position);
+            if (distance < minDistance && distance <= snapDistance)
+            {
+                minDistance = distance;
+                closest = target;
+            }
+        }
+
+        return closest;
     }
 }

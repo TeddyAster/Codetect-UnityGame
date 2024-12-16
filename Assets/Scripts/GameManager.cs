@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 保持单例在场景切换时存在
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -18,27 +18,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            QuitGame();
-        }
-    }
-
-    public void LoadNextLevel(string sceneName)
+    public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    public void RestartCurrentLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     public void QuitGame()
     {
-        Debug.Log("Exiting Game...");
         Application.Quit();
     }
 }
