@@ -13,8 +13,38 @@ EditorBuildSettings:
     guid: 3462dcd8c8c82a74abec37171be4786e
   - enabled: 1
     path: Assets/Scenes/2.unity
-    guid: 39c6b38b8458caf4d857e0dd43099136
+    guid: 0e1c7ffaf9883214893ba09df90c7a3b
   - enabled: 1
     path: Assets/Scenes/3.unity
-    guid: bd88fc58a9dd5b240bec99daf04e9b10
+    guid: 8e1e8320fb9de5c40bf2fcad925a6c6b
+  - enabled: 1
+    path: Assets/Scenes/4.unity
+    guid: ada92e3d47726904d90b159d11080df6
+  - enabled: 1
+    path: Assets/Scenes/5.unity
+    guid: a8a9b4d73a43adc4195cb7569d44ede6
+  - enabled: 1
+    path: Assets/Scenes/6.unity
+    guid: 44aee622c8b34ba45ac4dbe23c2f9102
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 8ee0f8d73bbc60840bd0a6e2bc64b7f1
+  - enabled: 1
+    path: Assets/Scenes/Ending_Caught.unity
+    guid: 9ef05ffd1a7d35349b06f36fcf7cfe24
+  - enabled: 1
+    path: Assets/Scenes/Ending_KickedOut.unity
+    guid: ce87e503866f232478e9466df4a77950
+  - enabled: 1
+    path: Assets/Scenes/Ending_RealGangster.unity
+    guid: ef48367dc30835e46bd4cc462cf63d35
+  - enabled: 1
+    path: Assets/Scenes/Ending_Runaway.unity
+    guid: e9832d96ef9dbcb43af2afbdd3af69dc
+  - enabled: 1
+    path: Assets/Scenes/Ending_Waiting.unity
+    guid: ca433ac069a4ab14eafee77b196dbab3
+  - enabled: 1
+    path: Assets/Scenes/Ending_Worker.unity
+    guid: 78a1057ffafe4a141afc33e4526eb9db
   m_configObjects: {}

@@ -1,25 +1,12 @@
 [Block]
-1=Move Forward
-2=Turn Left
-3=Turn Right
-4=Jump
-5=Crouch
-6=Run
-7=Stop
-8=Spin
+1=试着将这一逻辑块拖动至上方的逻辑里
 [/Block]
 [OrderPreset]
-A=1,2,3,4,5,6,7,8
-B=1,3,2,4,5,7,6,8
-C=7,6,1,4,5,3,2,8
+A=1
 [/OrderPreset]
 [GoToLevel]
 A=2
-B=3
-C=4
 [/GoToLevel]
 [StoryText]
-A=Good Boy!
-B=What?
-C=How?
+A=已将您注册为2047号实习生。
 [/StoryText]

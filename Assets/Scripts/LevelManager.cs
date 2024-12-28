@@ -15,15 +15,17 @@ namespace MG_BlocksEngine2.DragDrop
         public Transform blockParentTransform; // 代码块的父对象
         public Button submitButton;  // 用于提交的按钮
         public TextMeshProUGUI storyText;  // 用于显示剧情文本的 TextMeshProUGUI
-
+        public GameObject TransitionOut;
         public string levelFilePath; // 关卡文件路径
+        public static LevelManager Instance; // 单例实例
+        public string nextLevel; // 改为 string 类型，支持字符类型的关卡
 
         private Dictionary<int, string> blockData; // 存储块的ID和文本内容
         private string[] lines; // 存储关卡文件的所有行
 
         private Dictionary<string, List<int>> orderPresets = new Dictionary<string, List<int>>();  // 存储 OrderPreset
         private Dictionary<string, string> storyTexts = new Dictionary<string, string>();  // 存储 StoryText
-        private Dictionary<string, int> goToLevels = new Dictionary<string, int>();  // 存储 GoToLevel 映射
+        private Dictionary<string, string> goToLevels = new Dictionary<string, string>();  // 存储 GoToLevel 映射
         private List<int> currentOrder = new List<int>();  // 玩家当前的顺序
 
         void Start()
@@ -112,7 +114,7 @@ namespace MG_BlocksEngine2.DragDrop
                     inOrderPreset = false;
                     continue;
                 }
-                
+
                 if (inOrderPreset && line.Contains('='))
                 {
                     string[] parts = line.Split('=');
@@ -135,7 +137,6 @@ namespace MG_BlocksEngine2.DragDrop
                         }
                         orderPresets.Add(presetName, orderList);
                         Debug.Log($"Added preset {presetName}: {string.Join(", ", orderList)}");
-                        //Debug.Log($"Added preset {presetName}: {string.Join(", ", orderList)}");
                     }
                     else
                     {
@@ -181,11 +182,12 @@ namespace MG_BlocksEngine2.DragDrop
                 {
                     string[] parts = line.Split('=');
                     string presetName = parts[0].Trim();
-                    int nextLevel = int.Parse(parts[1].Trim());
-                    goToLevels[presetName] = nextLevel;
+                    string nextLevelName = parts[1].Trim();  // 使用字符串类型
+                    goToLevels[presetName] = nextLevelName;
                 }
             }
         }
+
         void GenerateCodeBlocks()
         {
             if (blockData.Count == 0)
@@ -247,6 +249,7 @@ namespace MG_BlocksEngine2.DragDrop
                 blockIndex++; // 递增块索引
             }
         }
+
         void OnSubmit()
         {
             if (validateParentObject == null)
@@ -285,6 +288,22 @@ namespace MG_BlocksEngine2.DragDrop
 
             Debug.Log("Current Order: " + string.Join(", ", currentOrder));
 
+            // 新增功能：检查是否包含 `20`
+            if (currentOrder.Contains(20))
+            {
+                Debug.Log("Match found with Y level");
+                StartCoroutine(DisplayText(storyTexts["Y"], "Y"));
+                return;
+            }
+
+            // 新增功能：检查顺序长度为 19
+            if (currentOrder.Count == 19)
+            {
+                Debug.Log("Match found with X level");
+                StartCoroutine(DisplayText(storyTexts["X"], "X"));
+                return;
+            }
+
             // 验证当前顺序是否与某个 OrderPreset 匹配
             foreach (var preset in orderPresets)
             {
@@ -298,10 +317,29 @@ namespace MG_BlocksEngine2.DragDrop
                 }
             }
 
+            // 如果顺序不是预设中的任意一种，检查是否是 Z
+            if (IsOrderZ(currentOrder))
+            {
+                Debug.Log("Match found with other presets");
+                StartCoroutine(DisplayText(storyTexts["Z"], "Z")); // 触发Z的剧情
+                return;
+            }
+
             // 如果顺序不正确，显示反馈
             StartCoroutine(DisplayText("无法运行，请检查你的排序！"));
+            FindObjectOfType<HealthManager>().TakeDamage();
         }
 
+        bool IsOrderZ(List<int> order)
+        {
+            // 检查首尾是否为1和8，其他元素不限制
+            if (order.Count > 1 && order[0] == 1 && order[order.Count - 1] == 8)
+            {
+                Debug.Log("Order matches Z");
+                return true;
+            }
+            return false;
+        }
 
         bool CompareOrder(List<int> order1, List<int> order2)
         {
@@ -323,6 +361,17 @@ namespace MG_BlocksEngine2.DragDrop
             return true;
         }
 
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject); // 确保单例唯一
+            }
+        }
 
         IEnumerator DisplayText(string message, string presetKey = null)
         {
@@ -336,12 +385,15 @@ namespace MG_BlocksEngine2.DragDrop
             // 等待3秒后加载对应的关卡（如果presetKey不为空）
             if (!string.IsNullOrEmpty(presetKey) && goToLevels.ContainsKey(presetKey))
             {
+                FindObjectOfType<HealthManager>().GainHealth();
+                // 设置实例变量 nextLevel
+                nextLevel = goToLevels[presetKey];
+                Debug.Log($"Next level is set to: {nextLevel}");
+
                 yield return new WaitForSeconds(3f); // 等待3秒
-                int nextLevel = goToLevels[presetKey];
-                Debug.Log($"Loading next level: {nextLevel}");
-                SceneManager.LoadScene(nextLevel.ToString()); // 加载场景
+                TransitionOut.SetActive(true); // 加载场景
+                SceneManager.LoadScene(nextLevel); // 直接加载字符串类型的场景
             }
         }
-
     }
 }
