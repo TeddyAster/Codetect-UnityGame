@@ -1,0 +1,16 @@
+[Block]
+1=用户点击应用
+2=应用开始启动
+3=显示开屏界面
+4=进入主界面
+
+[/Block]
+[OrderPreset]
+A=1,2,3,4
+[/OrderPreset]
+[GoToLevel]
+A=3
+[/GoToLevel]
+[StoryText]
+A=2047号实习生，通过技能考核，正式入职。
+[/StoryText]

@@ -27,6 +27,12 @@ EditorBuildSettings:
     path: Assets/Scenes/6.unity
     guid: 44aee622c8b34ba45ac4dbe23c2f9102
   - enabled: 1
+    path: Assets/Scenes/7.unity
+    guid: b0194e9f2148f9c4caebdf85190652f9
+  - enabled: 1
+    path: Assets/Scenes/Game_Flappy.unity
+    guid: 8e13387fcdb11fb469cf436378ddd163
+  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 8ee0f8d73bbc60840bd0a6e2bc64b7f1
   - enabled: 1
@@ -47,4 +53,28 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Ending_Worker.unity
     guid: 78a1057ffafe4a141afc33e4526eb9db
+  - enabled: 1
+    path: Assets/Scenes/Ending_Fired.unity
+    guid: 154b3deb945efbb47b21eeed38d65e77
+  - enabled: 1
+    path: Assets/Scenes/Ending_Destroy.unity
+    guid: 5d2f1408105f2cd4fa12632c7f47afab
+  - enabled: 1
+    path: Assets/Scenes/Ending_Did.unity
+    guid: c13ea7012fac285428d025b4a1ae962b
+  - enabled: 1
+    path: Assets/Scenes/Ending_Hero.unity
+    guid: 55836daf1a5c7c145b508e7b2cdd6f85
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 9ba15e93474ff674b86d3d45ec29cf6f
+  - enabled: 1
+    path: Assets/Scenes/Credits_Fin.unity
+    guid: 901b02e9c064a164bb9772d524db5cd3
+  - enabled: 1
+    path: Assets/Scenes/Delete_Progress.unity
+    guid: 17b7cf377c9675b4fbc8037664f9da63
+  - enabled: 1
+    path: Assets/Scenes/Fin.unity
+    guid: 6a1bac564c95a2b42833c03cadd9948f
   m_configObjects: {}

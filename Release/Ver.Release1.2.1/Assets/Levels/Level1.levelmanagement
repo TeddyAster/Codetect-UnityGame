@@ -1,0 +1,12 @@
+[Block]
+1=试着将这一逻辑块拖动至上方的逻辑里
+[/Block]
+[OrderPreset]
+A=1
+[/OrderPreset]
+[GoToLevel]
+A=2
+[/GoToLevel]
+[StoryText]
+A=已将您注册为2047号实习生。
+[/StoryText]
