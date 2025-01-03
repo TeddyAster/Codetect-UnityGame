@@ -153,7 +153,7 @@ namespace MG_BlocksEngine2.DragDrop
 
             BE2_MainEventsManager.Instance.TriggerEvent(BE2EventTypesBlock.OnDrop, block as Object ? block : null);
 
-            if (block as Object != null)
+            if (true)
             {
                 if (block.Type == BlockTypeEnum.trigger || block.Instruction.InstructionBase.BlocksStack == null)
                 {
@@ -173,7 +173,7 @@ namespace MG_BlocksEngine2.DragDrop
             }
             else
             {
-                BE2_MainEventsManager.Instance.TriggerEvent(BE2EventTypesBlock.OnDropDestroy, null);
+                //BE2_MainEventsManager.Instance.TriggerEvent(BE2EventTypesBlock.OnDropDestroy, null);
             }
         }
 

@@ -68,12 +68,12 @@ namespace MG_BlocksEngine2.DragDrop
                 }
                 else
                 {
-                    Destroy(Transform.gameObject);
+                    //Destroy(Transform.gameObject);
                 }
             }
             else
             {
-                Destroy(Transform.gameObject);
+                //Destroy(Transform.gameObject);
             }
 
             // v2.6 - adjustments on position and angle of blocks for supporting all canvas render modes

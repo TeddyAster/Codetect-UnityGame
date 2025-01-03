@@ -53,7 +53,7 @@ public class GenerateButtonWhenCountReached : MonoBehaviour
         {
             Debug.Log("Target count reached. Generating button...");
             GameObject newButton = Instantiate(buttonPrefab, parentTransform);
-            newButton.GetComponentInChildren<Text>().text = "[你已经获得了所有结局，最后问你最后一个问题(点击进入)]"; // 设置按钮文本
+            newButton.GetComponentInChildren<Text>().text = "[你已经获得了所有结局，问你最后一个问题(点击进入)]"; // 设置按钮文本
             newButton.GetComponent<Button>().onClick.AddListener(ResetRecords); // 绑定重置记录方法
         }
         else

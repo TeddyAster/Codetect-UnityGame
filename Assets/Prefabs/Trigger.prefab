@@ -35,9 +35,9 @@ RectTransform:
   m_Father: {fileID: 7841089938164744501}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 58.315, y: -57.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 58.315, y: 0}
   m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2948864455558269030
@@ -77,8 +77,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279571733
-  m_fontColor: {r: 0.08235294, g: 0.08235294, b: 0.08235294, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -250,7 +250,6 @@ GameObject:
   - component: {fileID: 7841089937709775617}
   - component: {fileID: 7841089937709775631}
   - component: {fileID: 7841089937709775630}
-  - component: {fileID: 7841089937709775628}
   - component: {fileID: 7841089937709775629}
   m_Layer: 5
   m_Name: Trigger
@@ -274,7 +273,7 @@ RectTransform:
   - {fileID: 7841089939012041291}
   - {fileID: 7841089937224720333}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -293,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5050cc6d4dc5493f988d59144bb14237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockColor: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
+  blockColor: {r: 0.18867922, g: 0.14798371, b: 0, a: 1}
 --- !u!114 &7841089937709775630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,18 +319,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7841089937709775628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7841089937709775616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21cffc6ee35e103f988c0db2ed98b459, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7841089937709775629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,7 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.94509804, g: 0.76862746, b: 0.05882353, a: 1}
+  m_Color: {r: 0.18867922, g: 0.14798371, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -109,8 +109,8 @@ namespace MG_BlocksEngine2.Environment
                 if (child.gameObject.activeSelf)
                 {
                     I_BE2_Block childBlock = child.GetComponent<I_BE2_Block>();
-                    if (childBlock != null)
-                        Destroy(childBlock.Transform.gameObject);
+                    if (childBlock != null);
+                        //Destroy(childBlock.Transform.gameObject);
                 }
             }
 
