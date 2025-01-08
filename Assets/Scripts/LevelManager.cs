@@ -15,8 +15,8 @@ namespace MG_BlocksEngine2.DragDrop
         public Transform blockParentTransform; // 代码块的父对象
         public Button submitButton;  // 用于提交的按钮
         public TextMeshProUGUI storyText;  // 用于显示剧情文本的 TextMeshProUGUI
-        public GameObject TransitionOut;
-        public string levelFilePath; // 关卡文件路径
+        public GameObject TransitionOut; // 场景过渡效果
+        public TextAsset levelFile; // 用于拖入 `.levelmanagement` 文件
         public static LevelManager Instance; // 单例实例
         public string nextLevel; // 改为 string 类型，支持字符类型的关卡
 
@@ -45,15 +45,15 @@ namespace MG_BlocksEngine2.DragDrop
 
         void ReadLevelFile()
         {
-            // 读取关卡文件内容
-            if (File.Exists(levelFilePath))
+            if (levelFile != null)
             {
-                lines = File.ReadAllLines(levelFilePath);  // 这里读取文件并赋值给 lines
+                // 使用 TextAsset 的 `text` 属性读取内容
+                lines = levelFile.text.Split(new[] { '\r', '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
                 Debug.Log("Level file loaded successfully.");
             }
             else
             {
-                Debug.LogError($"Level file not found at: {levelFilePath}");
+                Debug.LogError("Level file is not assigned in the Inspector!");
             }
         }
 

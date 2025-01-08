@@ -11,7 +11,6 @@ public class BGMManager : MonoBehaviour
     public static BGMManager Instance;
 
     private AudioClip initialBGMClip; // 保存初始的背景音乐（用于主界面）
-
     private void Awake()
     {
         // 确保只有一个 BGMManager 实例

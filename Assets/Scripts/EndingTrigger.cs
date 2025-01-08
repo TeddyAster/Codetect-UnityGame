@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.IO;
-using UnityEngine.SceneManagement;  // 引入SceneManagement命名空间
+using UnityEngine.SceneManagement; // 引入SceneManagement命名空间
 
 public class EndingTrigger : MonoBehaviour
 {
@@ -14,9 +14,8 @@ public class EndingTrigger : MonoBehaviour
         // 获取当前场景的名称作为 endingKey
         endingKey = SceneManager.GetActiveScene().name;
 
-        // 获取项目根目录路径（与 Assets 同级）
-        string projectRootPath = Directory.GetParent(Application.dataPath).FullName;
-        filePath = Path.Combine(projectRootPath, "PlayerEndings.txt");
+        // 设置文件路径到 Unity 的 persistentDataPath
+        filePath = Path.Combine(Application.persistentDataPath, "PlayerEndings.txt");
 
         // 确保文件存在
         EnsureFileExists();

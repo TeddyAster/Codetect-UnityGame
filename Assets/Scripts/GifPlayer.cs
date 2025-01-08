@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class GifPlayer : MonoBehaviour
 {
-    public string gifPath; // GIF 文件路径或 URL
+    public TextAsset gifFile; // 用于拖动 .gif 文件到 Inspector
     public Image targetImage; // 用于显示 GIF 的 Image 组件
     public bool shouldSaveFromWeb = false; // 是否保存来自网络的 GIF
     public bool enableOptimization = true; // 是否启用内存优化
     public bool reverseMode = false; // 是否启用反向播放模式
+
+    private string gifPath; // 临时保存路径
 
     void Start()
     {
@@ -18,10 +21,18 @@ public class GifPlayer : MonoBehaviour
             return;
         }
 
-        // 检查 GIF 路径
+        // 检查 GIF 文件
+        if (gifFile == null)
+        {
+            Debug.LogError("Gif file is not assigned!");
+            return;
+        }
+
+        // 将 GIF 文件写入到临时路径
+        gifPath = GetGifPath();
         if (string.IsNullOrEmpty(gifPath))
         {
-            Debug.LogError("Gif path is not set!");
+            Debug.LogError("Failed to generate gif path!");
             return;
         }
 
@@ -67,6 +78,25 @@ public class GifPlayer : MonoBehaviour
             progress => Debug.Log($"Loading: {progress * 100}%"),
             shouldSaveFromWeb
         );
+    }
+
+    private string GetGifPath()
+    {
+        // 确定临时路径
+        string tempPath = Path.Combine(Application.persistentDataPath, $"{gifFile.name}.gif");
+
+        try
+        {
+            // 将 TextAsset 中的内容写入临时路径
+            File.WriteAllBytes(tempPath, gifFile.bytes);
+            Debug.Log($"GIF saved to: {tempPath}");
+            return tempPath;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Error saving GIF file: {e.Message}");
+            return null;
+        }
     }
 
     public void PauseGif()

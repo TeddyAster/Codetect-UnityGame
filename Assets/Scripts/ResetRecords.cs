@@ -10,9 +10,8 @@ public class ResetRecords : MonoBehaviour
 
     private void ResetAllRecords()
     {
-        // 获取项目根目录路径（与 Assets 同级）
-        string projectRootPath = Directory.GetParent(Application.dataPath).FullName;
-        string filePath = Path.Combine(projectRootPath, "PlayerEndings.txt");
+        // 获取 Unity 的持久化数据路径
+        string filePath = Path.Combine(Application.persistentDataPath, "PlayerEndings.txt");
 
         // 删除文件
         if (File.Exists(filePath))

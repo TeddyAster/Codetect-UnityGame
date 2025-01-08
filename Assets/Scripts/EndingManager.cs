@@ -12,9 +12,8 @@ public class EndingManager : MonoBehaviour
 
     void Start()
     {
-        // 获取项目根目录路径（与 Assets 同级）
-        string projectRootPath = Directory.GetParent(Application.dataPath).FullName;
-        filePath = Path.Combine(projectRootPath, "PlayerEndings.txt");
+        // 获取 Unity 默认的持久化数据路径
+        filePath = Path.Combine(Application.persistentDataPath, "PlayerEndings.txt");
         Debug.Log($"Player data file located at: {filePath}");
 
         // 加载或创建玩家数据文件
@@ -45,17 +44,24 @@ public class EndingManager : MonoBehaviour
         totalEndings = 0; // 重置计数
 
         // 读取文件内容并计算达成的结局数量
-        string[] lines = File.ReadAllLines(filePath);
-        foreach (string line in lines)
+        if (File.Exists(filePath))
         {
-            if (line.Contains("="))
+            string[] lines = File.ReadAllLines(filePath);
+            foreach (string line in lines)
             {
-                string[] parts = line.Split('=');
-                if (parts.Length == 2 && int.TryParse(parts[1], out int value))
+                if (line.Contains("="))
                 {
-                    totalEndings += value;
+                    string[] parts = line.Split('=');
+                    if (parts.Length == 2 && int.TryParse(parts[1], out int value))
+                    {
+                        totalEndings += value;
+                    }
                 }
             }
+        }
+        else
+        {
+            Debug.LogWarning("Endings file not found during update display.");
         }
 
         // 在 UI 上显示达成的结局数量
